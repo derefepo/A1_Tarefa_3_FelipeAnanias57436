@@ -8,6 +8,7 @@ public class FollowWP : MonoBehaviour
     int currentWP = 0;
 
     public float speed = 10.0f;
+    public float rptspeed = 10.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +26,9 @@ public class FollowWP : MonoBehaviour
         {
             currentWP = 0;
         }
-        this.transform.LookAt(waypoints[currentWP].transform);
+        //this.transform.LookAt(waypoints[currentWP].transform);
+        Quaternion lookatWP = Quaternion.LookRotation(waypoints[currentWP].transform.rotation - this.transform.position);
+        this.transform.rotation = Quaternion.Slerp(transform.rotation, lookatWP, Time.deltaTime * rptspeed);
         this.transform.Translate(0,0,speed * Time.deltaTime);
     }
 }
